@@ -1,0 +1,57 @@
+A51 MACRO ASSEMBLER  PROGRAM                                                              03/23/2023 20:25:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Program.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Program.a51 SET(SMALL) DEBUG PRINT(.\Listings\Program.lst) OBJECT(.\Obj
+                      ects\Program.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     MY_KILLING_COPY SEGMENT CODE    ; Ulokowanie kodu w najbardziej wygodnym (wg asemblera)
+                       2                                                                     ; miejscu w pamieci kodu
+  0020                 3     Zrodlo DATA 20h
+  0030                 4     Cel DATA 30h
+  0010                 5     IleDanych EQU 16
+                       6             
+----                   7     CSEG AT 0
+0000 020000   F        8     JMP start
+                       9     
+----                  10     RSEG MY_KILLING_COPY
+0000                  11             start:
+0000 7820             12                     MOV R0,#Zrodlo          ; Przeniesienie adresu Zrodlo do Rejestru R0
+0002 7930             13                     MOV R1,#Cel                     ; Przeniesienie adresu Cel do Rejestru R1
+0004 7B10             14                     MOV R3,#IleDanych       ; Przeniesienie stalej IleDanych do Rejestru R3
+0006                  15             Petla:
+0006 E6               16                     MOV A,@R0               ; Przeniesienie adresu w Rejestrze R0 do Akumulatora
+0007 F7               17                     MOV @R1,A               ; Przeniesienie zawartosci z komorki o adresie w Ak
+                             umulatorze
+                      18                                                     ; do komorki o adresie w Rejestrze R1
+0008 08               19                     INC R0                  ; Inkrementacja adresu w Rejestrze R0
+                      20                                                     ; Nastepna komorka pamieci RAM
+0009 09               21                     INC R1                  ; Inkrementacja adresu w Rejestrze R1
+                      22                                                     ; Nastepna komorka pamieci RAM
+000A DBFA             23                     DJNZ R3,Petla   ; Dekrementacja zawartosci Rejestru R3
+                      24                                                     ; Nastepna iteracja petli, jesli wartosc R3
+                              rozna od 0
+                      25     END
+A51 MACRO ASSEMBLER  PROGRAM                                                              03/23/2023 20:25:27 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CEL. . . . . . . .  D ADDR   0030H   A   
+ILEDANYCH. . . . .  N NUMB   0010H   A   
+MY_KILLING_COPY. .  C SEG    000CH       REL=UNIT
+PETLA. . . . . . .  C ADDR   0006H   R   SEG=MY_KILLING_COPY
+START. . . . . . .  C ADDR   0000H   R   SEG=MY_KILLING_COPY
+ZRODLO . . . . . .  D ADDR   0020H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

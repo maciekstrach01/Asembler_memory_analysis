@@ -1,0 +1,63 @@
+A51 MACRO ASSEMBLER  PROGRAM                                                              03/24/2023 20:30:34 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Program.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Program.a51 SET(SMALL) DEBUG PRINT(.\Listings\Program.lst) OBJECT(.\Obj
+                      ects\Program.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     MY_KILLING_COPY SEGMENT CODE    ; Ulokowanie kodu w najbardziej wygodnym (wg asemblera)
+                       2                                                                     ; miejscu w pamieci kodu.
+  0030                 3     Cel DATA 30h
+  0005                 4     IleDanych EQU 5
+                       5             
+----                   6     CSEG AT 0
+0000 020000   F        7     JMP start
+                       8     
+----                   9     RSEG MY_KILLING_COPY
+0000                  10             start:
+0000 7830             11                     MOV R0,#Cel                     ; Przeniesienie adresu Cel do Rejestru R0.
+0002 7A05             12                     MOV R2,#IleDanych       ; Przeniesienie stalej IleDanych do Rejestru R2.
+0004 900000   F       13                     MOV DPTR,#etykieta      ; Zaladowanie adresu pierwszego elementu tablicy da
+                             nych.
+                      14                                                             ; Etykieta do wskaznika.
+0007                  15             Petla:
+0007 E4               16                     CLR A                   ; Wyczyszczenie Akumulatora.
+                      17                                                     ; Niezbedne do poprawnej pracy programu.
+0008 93               18                     MOVC A,@A+DPTR  ; Przeniesienie zawartosci ze wskazanej komorki pamieci
+                      19                                                     ; programu do akumulatora.
+0009 F6               20                     MOV @R0,A               ; Przeniesienie zawartosci Akumulatora
+                      21                                                     ; do komorki RAM o adresie w Rejestrze R0.
+000A A3               22                     INC DPTR                ; Inkrementacja wskaznika.
+                      23                                                     ; Nastepna komorka pamieci programu.
+000B 08               24                     INC R0                  ; Inkrementacja adresu w Rejestrze R0.
+                      25                                                     ; Nastepna komorka pamieci RAM.
+000C DAF9             26                     DJNZ R2,Petla   ; Dekrementacja zawartosci Rejestru R2
+                      27                                                     ; Nastepna iteracja petli, jesli wartosc R2
+                              rozna od 0.
+                      28                                                     
+000E 0B150412         29             etykieta: db 11,21,4,18,8       ; Tablica danych oznaczona etykieta.
+0012 08                      
+                      30     END
+A51 MACRO ASSEMBLER  PROGRAM                                                              03/24/2023 20:30:34 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CEL. . . . . . . .  D ADDR   0030H   A   
+ETYKIETA . . . . .  C ADDR   000EH   R   SEG=MY_KILLING_COPY
+ILEDANYCH. . . . .  N NUMB   0005H   A   
+MY_KILLING_COPY. .  C SEG    0013H       REL=UNIT
+PETLA. . . . . . .  C ADDR   0007H   R   SEG=MY_KILLING_COPY
+START. . . . . . .  C ADDR   0000H   R   SEG=MY_KILLING_COPY
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
